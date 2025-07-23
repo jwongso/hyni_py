@@ -2,7 +2,10 @@
   "provider": {
     "name": "mistral",
     "display_name": "Mistral AI",
-    "version": "1.0"
+    "version": "1.0",
+    "api_version": "v1",
+    "last_validated": "2025-06-26",
+    "schema_version": "1.0.0"
   },
   "api": {
     "endpoint": "https://api.mistral.ai/v1/chat/completions",
@@ -25,11 +28,8 @@
   },
   "models": {
     "available": [
-      "mistral-small-3.1",
       "mistral-small-latest",
-      "mistral-medium-3",
       "mistral-medium-latest",
-      "mistral-large-2",
       "mistral-large-latest"
     ],
     "default": "mistral-small-latest"

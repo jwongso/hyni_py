@@ -2,7 +2,10 @@
   "provider": {
     "name": "openai",
     "display_name": "OpenAI Chat",
-    "version": "1.0"
+    "version": "1.0",
+    "api_version": "2024-01",
+    "last_validated": "2025-06-26",
+    "schema_version": "1.0.0"
   },
   "api": {
     "endpoint": "https://api.openai.com/v1/chat/completions",
@@ -26,8 +29,9 @@
   "models": {
     "available": [
       "gpt-4o",
-      "gpt-4",
+      "gpt-4o-mini",
       "gpt-4-turbo",
+      "gpt-4",
       "gpt-3.5-turbo"
     ],
     "default": "gpt-4o"
@@ -92,31 +96,39 @@
       "default": false
     },
     "response_format": {
-      "type": "string",
+      "type": "object",
       "required": false,
-      "enum": ["text", "json"],
-      "default": "text"
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["text", "json_object"]
+        }
+      },
+      "default": null
     }
   },
   "message_roles": ["system", "user", "assistant"],
   "system_message": {
     "supported": true,
     "field": "system",
-    "type": "string"
+    "type": "string",
+    "format": "plain"
   },
   "multimodal": {
     "supported": true,
-    "supported_types": ["text", "image", "audio"],
-    "image_formats": ["image/jpeg", "image/png", "image/gif", "image/webp"],
-    "audio_formats": ["audio/mpeg", "audio/wav", "audio/ogg"],
-    "max_image_size": 10485760,
-    "max_audio_size": 10485760,
+    "supported_types": ["text", "image"],
+    "image_formats": ["image/jpeg", "image/png", "image/webp"],
+    "max_image_size": 20971520,
     "max_media_per_message": 10
   },
   "message_format": {
     "structure": {
       "role": "<ROLE>",
       "content": []
+    },
+    "system_structure": {
+      "role": "system",
+      "content": "<TEXT>"
     },
     "content_types": {
       "text": {
@@ -126,13 +138,8 @@
       "image": {
         "type": "image_url",
         "image_url": {
-          "url": "data:image/png;base64,<BASE64_DATA>"
-        }
-      },
-      "audio": {
-        "type": "audio_url",
-        "audio_url": {
-          "url": "data:audio/wav;base64,<BASE64_DATA>"
+          "url": "<IMAGE_URL>",
+          "detail": "auto"
         }
       }
     }
@@ -194,9 +201,7 @@
   },
   "features": {
     "streaming": true,
-    "function_calling": true,
     "json_mode": true,
-    "structured_outputs": true,
     "vision": true,
     "system_messages": true,
     "message_history": true

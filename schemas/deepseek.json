@@ -2,7 +2,10 @@
   "provider": {
     "name": "deepseek",
     "display_name": "DeepSeek Chat",
-    "version": "1.0"
+    "version": "1.0",
+    "api_version": "v1",
+    "last_validated": "2025-06-26",
+    "schema_version": "1.0.2"
   },
   "api": {
     "endpoint": "https://api.deepseek.com/v1/chat/completions",
@@ -28,12 +31,15 @@
   "models": {
     "available": [
       "deepseek-chat",
-      "deepseek-coder",
+      "deepseek-coder"
+    ],
+    "deprecated": [
       "deepseek-math",
       "deepseek-v2",
       "deepseek-v2-light"
     ],
-    "default": "deepseek-chat"
+    "default": "deepseek-chat",
+    "description": "Deprecated models may still work but are not recommended for new projects."
   },
   "request_template": {
     "model": "deepseek-chat",
@@ -84,9 +90,14 @@
     },
     "stop": {
       "type": ["string", "array"],
+      "items": {
+        "type": "string",
+        "maxLength": 128
+      },
+      "maxItems": 4,
       "required": false,
-      "max_items": 4,
-      "default": null
+      "default": null,
+      "description": "Up to 4 sequences where the API will stop generating further tokens."
     },
     "stream": {
       "type": "boolean",
@@ -112,6 +123,10 @@
     "structure": {
       "role": "<ROLE>",
       "content": "<TEXT_CONTENT>"
+    },
+    "system_structure": {
+      "role": "system",
+      "content": "<TEXT>"
     },
     "content_types": {
       "text": {
